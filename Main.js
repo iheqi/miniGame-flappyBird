@@ -12,10 +12,10 @@ export class Main {
 		this.canvas = document.getElementById('game_canvas');
 		this.ctx = this.canvas.getContext('2d');
 		this.dataStore = DataStore.getInstance();
+		this.director = Director.getInstance();
 
 		const loader = ResourceLoader.create();
 		loader.onLoaded(map => this.onResourceFirstLoaded(map));
-
 	}
 	onResourceFirstLoaded(map) {
 		this.dataStore.ctx = this.ctx;
@@ -26,7 +26,9 @@ export class Main {
 
 		this.dataStore
 			.set('background', Background)
-			.set('land', Land);
-		Director.getInstance().run();
+			.set('land', Land)
+			.set('pencils', []);          // 铅笔数组
+		this.director.createPencil();     // 在游戏开始前创建铅笔
+		this.director.run();
 	}
 }

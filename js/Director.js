@@ -18,6 +18,9 @@ export class Director {
 
 	run() {
 		this.dataStore.get('background').draw();
+
+		this.pencilLogic();
+
 		this.dataStore.get('pencils').forEach((pencil, index, pencils) => {
 			pencil.draw();
 		});
@@ -37,5 +40,20 @@ export class Director {
 		this.dataStore.get('pencils').push(new UpPencil(top));
 		this.dataStore.get('pencils').push(new DownPencil(top));
 
+	}
+	pencilLogic() {
+		const pencils = this.dataStore.get('pencils');
+		if (pencils[0].x + pencils[0].width <= 0 &&     // 当铅笔要移出屏幕了
+			pencils.length === 4
+		) {    
+			pencils.shift();
+			pencils.shift();
+		}
+
+		if (pencils[0].x <= (window.innerWidth-pencils[0].width) / 2    // 当铅笔移动到超过一半了并且只有剩下两根了
+			&& pencils.length === 2
+		) {
+			this.createPencil();
+		}
 	}
 }

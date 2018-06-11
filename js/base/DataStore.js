@@ -12,6 +12,9 @@ export class DataStore {
 	}
 
 	set(key, value) {
+		if (typeof value === 'function') {   // 简化传参，可以直接传类名
+			value = new value();
+		}
 		this.map.set(key, value);
 		return this;
 	}

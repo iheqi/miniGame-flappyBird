@@ -15,7 +15,10 @@ export class Director {
 	}
 
 	run() {
-		const bgSprite = this.dataStore.get('background');
-		bgSprite.draw(); 
+		this.dataStore.get('background').draw();
+		this.dataStore.get('land').draw();
+		requestAnimationFrame(() => {
+			this.run();
+		});
 	}
 }

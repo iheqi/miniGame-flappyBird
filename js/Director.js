@@ -63,4 +63,13 @@ export class Director {
 			this.createPencil();
 		}
 	}
+
+	birdsEvent() {
+		for (let i=0; i <= 2; i++) {   // 每只鸟都操作
+			// 是使不下落，设置初始y，然后加上一点击时的offsetUp，就有上升效果
+			this.dataStore.get('birds').y[i] = this.dataStore.get('birds').birdsY[i];  // 
+		}
+
+		this.dataStore.get('birds').time = 0; 
+	}
 }

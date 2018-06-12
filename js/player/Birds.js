@@ -38,7 +38,7 @@ export class Birds extends Sprite {
 		this.birdHeight = 24;
 		this.birdsHeight = [this.birdHeight, this.birdHeight, this.birdHeight];
 
-		// this.y = [this.birdY, this.birdY, this.birdY];
+		this.y = [this.birdY, this.birdY, this.birdY];    // 保存初始位置
 		this.index = 0;                    // 第几只小鸟
 		this.count = 0;
 
@@ -55,12 +55,26 @@ export class Birds extends Sprite {
 		}
 
 		this.index = Math.floor(this.count);
+
+		const g = 0.98 / 5;          // 重力加速度   
+
+		// 一开始时，小鸟从中间先自动飞高一点，体验较好
+		const offsetUp = 30;
+
+		// 小鸟下落位移
+		const offsetY = (g * this.time * (this.time -  offsetUp)) / 2;  // 自由落体
+
+		for (let i=0; i <= 2; i++) {       // 每只鸟
+			this.birdsY[i] = this.y[i] + offsetY;        // 设置高度
+		}
+		this.time++;
+
 		super.draw(
 			this.img,
-			this.clippingX[this.index], this.clippingY[this.index],
-			this.clippingWidth[this.index], this.clippingHeight[this.index],
-			this.birdsX[this.index], this.birdsY[this.index],
-			this.birdsWidth[this.index], this.birdsHeight[this.index]
+			this.clippingX[this.index], this.clippingY[this.index],   // 裁剪起点，相对于源图像
+			this.clippingWidth[this.index], this.clippingHeight[this.index],   // 裁剪的长度和宽度
+			this.birdsX[this.index], this.birdsY[this.index],               // 裁剪后的图像的坐标，相对于canvas
+			this.birdsWidth[this.index], this.birdsHeight[this.index]       // 裁剪后的图像的宽高
 		);
 	}
 }

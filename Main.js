@@ -33,7 +33,30 @@ export class Main {
 			.set('land', Land)
 			.set('pencils', [])        // 铅笔数组
 			.set('birds', Birds);
+		this.registerEvent();
 		this.director.createPencil();     // 在游戏开始前创建铅笔
 		this.director.run();
+	}
+
+	registerEvent() {
+		this.canvas.addEventListener('click', event => {
+			event.preventDefault();
+			if (this.director.isGameOver) {
+				this.init();
+			} else {
+				this.director.birdsEvent();
+			}
+
+		})
+
+		this.canvas.addEventListener('touchmove', event => {
+			event.preventDefault();
+			if (this.director.isGameOver) {
+				this.init();
+			} else {
+				this.director.birdsEvent();
+			}
+
+		})
 	}
 }

@@ -4,6 +4,7 @@
 import { DataStore } from './base/DataStore.js';
 import { UpPencil } from './runtime/UpPencil.js';
 import { DownPencil } from './runtime/DownPencil.js';
+import { Score } from './player/Score.js';
 
 export class Director {
 	constructor() {
@@ -28,12 +29,13 @@ export class Director {
 			});
 			this.dataStore.get('land').draw();
 			this.dataStore.get('birds').draw();
-
+			this.dataStore.get('score').draw();
 			const timer = requestAnimationFrame(() => {
 				this.run();
 			});
 			this.dataStore.set('timer', timer);
-		} else {												// 游戏结束
+		} else {					
+			this.dataStore.get('startButton').draw();							// 游戏结束
 			cancelAnimationFrame(this.dataStore.get('timer'));
 			this.dataStore.destory();
 		}
@@ -56,6 +58,7 @@ export class Director {
 		) {    
 			pencils.shift();
 			pencils.shift();
+			this.dataStore.get('score').isScore = true;
 		}
 
 		if (pencils[0].x <= (window.innerWidth-pencils[0].width) / 2    // 当铅笔移动到超过一半了并且只有剩下两根了
@@ -77,9 +80,10 @@ export class Director {
 		const birds = this.dataStore.get('birds');
 		const land = this.dataStore.get('land');
 		const pencils = this.dataStore.get('pencils');
+		const score = this.dataStore.get('score');
 
 		if (birds.birdsY[0] + birds.birdsHeight[0] >= land.y) {
-			console.log('撞地了');
+			console.log('撞上地面啦！');
 			this.isGameOver = true;
 		}
 
@@ -103,9 +107,16 @@ export class Director {
 			}; 
 
 			if (Director.getInstance().isStrike(birdsBorder, pencilBorder)) {
-				console.log('zhuanshangle')
+				console.log('撞上铅笔啦！')
 				this.isGameOver = true;
 			}
+		}
+
+		// 加分逻辑
+		if (birds.birdsX[0] > pencils[0].x + pencils[0].width
+			&& score.isScore) {
+			score.isScore = false;
+			score.scoreNum++;
 		}
 	}
 

@@ -17,6 +17,7 @@ export class Director {
 	}
 
 	run() {
+		this.check();
 		if (!this.isGameOver) {             // 统筹配置
 			this.dataStore.get('background').draw();
 
@@ -71,5 +72,53 @@ export class Director {
 		}
 
 		this.dataStore.get('birds').time = 0; 
+	}
+	check() {   
+		const birds = this.dataStore.get('birds');
+		const land = this.dataStore.get('land');
+		const pencils = this.dataStore.get('pencils');
+
+		if (birds.birdsY[0] + birds.birdsHeight[0] >= land.y) {
+			console.log('撞地了');
+			this.isGameOver = true;
+		}
+
+		// 小鸟的边框模型
+		const birdsBorder = {
+			top: birds.birdsY[0],
+			bottom: birds.birdsY[0] + birds.birdsHeight[0],
+			left: birds.birdsX[0], 
+			right: birds.birdsX[0] + birds.birdsHeight[0]
+		}
+
+		// 铅笔模型
+
+		const len = pencils.length;
+		for (let pencil of pencils) {
+			const pencilBorder = {                      // 确定其坐标及占位
+				top: pencil.y,
+				bottom: pencil.y + pencil.height,
+				left: pencil.x,
+				right: pencil.x + pencil.width
+			}; 
+
+			if (Director.getInstance().isStrike(birdsBorder, pencilBorder)) {
+				console.log('zhuanshangle')
+				this.isGameOver = true;
+			}
+		}
+	}
+
+	// 判断小鸟是否和铅笔碰撞
+	isStrike(bird, pencil) {
+		let result = false;
+		if (bird.top > pencil.bottom+10 ||                   // 判断是否重叠
+			bird.bottom < pencil.top+10 ||
+			bird.right < pencil.left+10 ||
+			bird.left > pencil.right+10
+		) {
+			result = true;
+		}
+		return !result;
 	}
 }

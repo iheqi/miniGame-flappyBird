@@ -7,7 +7,7 @@ export class DownPencil extends Pencil {
 		super(img, top);
 	}
 	draw() {
-        let gap = this.height / 5;
+        let gap = this.height / 2;
         this.y = this.top + gap;
 
 		super.draw();

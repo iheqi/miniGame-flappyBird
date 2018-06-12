@@ -29,16 +29,16 @@ export class Birds extends Sprite {
 		this.birdX = window.innerWidth / 4;   // 初始X位置(其实不用变化)
 		this.birdsX = [this.birdX, this.birdX, this.birdX];
 
-		this.birdY = window.innerWidth / 2;   // 初始Y位置
-		this.birdsY = [this.birdY, this.birdY, this.birdY];
+		const birdY = window.innerWidth / 2;   // 初始Y位置
+		this.birdsY = [birdY, birdY, birdY];   // 当前的偏移
 
-		this.birdWidth = 34;
-		this.birdsWidth = [this.birdWidth, this.birdWidth, this.birdWidth];
+		const birdWidth = 34;
+		this.birdsWidth = [birdWidth, birdWidth, birdWidth];
 
-		this.birdHeight = 24;
-		this.birdsHeight = [this.birdHeight, this.birdHeight, this.birdHeight];
+		const birdHeight = 24;
+		this.birdsHeight = [birdHeight, birdHeight, birdHeight];
 
-		this.y = [this.birdY, this.birdY, this.birdY];    // 保存初始位置
+		this.y = [birdY, birdY, birdY];    // 保存初始位置
 		this.index = 0;                    // 第几只小鸟
 		this.count = 0;
 
@@ -56,7 +56,7 @@ export class Birds extends Sprite {
 
 		this.index = Math.floor(this.count);
 
-		const g = 0.98 / 5;          // 重力加速度   
+		const g = 0.98 / 5.3;          // 重力加速度   
 
 		// 一开始时，小鸟从中间先自动飞高一点，体验较好
 		const offsetUp = 30;

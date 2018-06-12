@@ -23,6 +23,6 @@ export class DataStore {
 	}
 
 	destory() {
-
+		this.map.clear();
 	}
 }

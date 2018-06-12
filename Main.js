@@ -4,6 +4,7 @@ import { DataStore } from './js/base/DataStore.js';
 import { Director } from './js/Director.js';
 import { Background } from './js/runtime/Background.js';
 import { Land } from './js/runtime/Land.js';
+import { Birds } from './js/player/Birds.js';
 
 
 
@@ -24,10 +25,14 @@ export class Main {
 	}
 	init() {
 
+		// 首先重置游戏是没有结束
+		this.director.isGameOver = false;
+
 		this.dataStore
 			.set('background', Background)
 			.set('land', Land)
-			.set('pencils', []);          // 铅笔数组
+			.set('pencils', [])        // 铅笔数组
+			.set('birds', Birds);
 		this.director.createPencil();     // 在游戏开始前创建铅笔
 		this.director.run();
 	}

@@ -17,18 +17,25 @@ export class Director {
 	}
 
 	run() {
-		this.dataStore.get('background').draw();
+		if (!this.isGameOver) {             // 统筹配置
+			this.dataStore.get('background').draw();
 
-		this.pencilLogic();
+			this.pencilLogic();
 
-		this.dataStore.get('pencils').forEach((pencil, index, pencils) => {
-			pencil.draw();
-		});
-		this.dataStore.get('land').draw();
+			this.dataStore.get('pencils').forEach((pencil, index, pencils) => {
+				pencil.draw();
+			});
+			this.dataStore.get('land').draw();
+			this.dataStore.get('birds').draw();
 
-		requestAnimationFrame(() => {
-			this.run();
-		});
+			const timer = requestAnimationFrame(() => {
+				this.run();
+			});
+			this.dataStore.set('timer', timer);
+		} else {												// 游戏结束
+			cancelAnimationFrame(this.dataStore.get('timer'));
+			this.dataStore.destory();
+		}
 	}
 
 	createPencil() {
